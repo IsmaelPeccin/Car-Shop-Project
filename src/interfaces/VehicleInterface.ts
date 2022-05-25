@@ -10,5 +10,4 @@ const VehicleSchema = z.object({
 
 type Vehicle = z.infer<typeof VehicleSchema>;
 
-export default Vehicle;
-export { VehicleSchema };
+export { VehicleSchema, Vehicle };

@@ -57,14 +57,14 @@ abstract class Controller<T> {
   ): Promise<typeof res > => {
     const { id } = req.params;
     try {
-      if (!id) {
-        return res.status(400).json({ error: this.errors.requiredId });
+      if (id.length !== 24) {
+        return res.status(400).json({ error: this.errors.id });
       }
       const obj = await this.service.delete(id);
       if (!obj) {
         return res.status(404).json({ error: this.errors.notFound });
       }
-      return res.json(obj);
+      return res.status(204).json();
     } catch (err) {
       return res.status(500).json({ error: this.errors.internal });
     }

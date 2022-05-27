@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { VehicleSchema } from './VehicleInterface';
 
-const CarSchema = z.object({
+export const CarSchema = VehicleSchema.extend({
   doorsQty: z.number({
     required_error: 'Doors quantity is required',
   }).gte(2, { message: 'DoorsQty must be greater or equal 2' })
@@ -13,6 +13,4 @@ const CarSchema = z.object({
     .lte(7, { message: 'Seats quantity must be less or equal 7' }),
 });
 
-type Car = z.infer<typeof VehicleSchema & typeof CarSchema>;
-
-export { CarSchema, Car };
+export type Car = z.infer<typeof CarSchema>;

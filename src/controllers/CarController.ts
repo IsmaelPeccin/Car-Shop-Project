@@ -41,8 +41,8 @@ class CarController extends Controller<Car> {
   ): Promise<typeof res> => {
     const { id } = req.params;
     try {
-      if (!id) {
-        return res.status(400).json({ error: this.errors.requiredId });
+      if (id.length !== 24) {
+        return res.status(400).json({ error: this.errors.id });
       }
       const car = await this.service.readOne(id);
       return car

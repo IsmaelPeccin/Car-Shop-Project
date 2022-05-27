@@ -27,7 +27,7 @@ class CarController extends Controller<Car> {
         return res.status(500).json({ error: this.errors.internal });
       }
       if ('error' in car) {
-        return res.status(400).json(car);
+        return res.status(400).json({ error: this.errors.badRequest });
       }
       return res.status(201).json(car);
     } catch (err) {

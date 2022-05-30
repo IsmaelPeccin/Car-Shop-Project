@@ -14,9 +14,8 @@ describe ('Testing Car Service', () => {
   });
 
   afterEach (() => {
-    // (carModel.create as sinon.SinonStub).restore();
-    // (carModel.read as sinon.SinonStub).restore();
-    sinon.restore();
+    (carModel.create as sinon.SinonStub).restore();
+    (carModel.read as sinon.SinonStub).restore();
   });
 
   it ('should create a new car and return new car', async () => {

@@ -46,7 +46,7 @@ describe('Testing Car Model', () => {
   it('should update a car by id', async () => {
     const car = await carModel.update(validCarWithId[0]._id, validCar);
     expect(car).to.be.an('object');
-    expect(car).to.be.deep.equal(validCar);
+    expect(car).to.be.deep.equal(validCarWithId[0]);
   });
 
   it('should delete a car by id', async () => {

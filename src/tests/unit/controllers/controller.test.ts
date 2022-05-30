@@ -4,7 +4,7 @@ import chaiHttp = require('chai-http');
 import CarService from '../../../service/CarService';
 import CarController from '../../../controllers/CarController';
 import { Request, Response, NextFunction } from 'express';
-import { invalidCar, validCar } from '../mocks/mocks';
+import { validCar, validCarWithId } from '../mocks/mocks';
 
 
 chai.use(chaiHttp);
@@ -43,12 +43,31 @@ describe('Testing Car Controller', () => {
         expect((res.status as sinon.SinonStub).calledWith(500)).to.be.true;
         expect((res.json as sinon.SinonStub).calledWith({ error: 'Internal Server Error' })).to.be.true;
       });
+  });
 
-      // it('should return status code equal to 400 if receive an wrong object', async () => {
-      //   req.body = invalidCar
-      //   await carController.create(req, res);
-      //   expect((res.status as sinon.SinonStub).calledWith(400)).to.be.true;
-      //   expect((res.json as sinon.SinonStub).calledWith({ error: 'Bad Request' })).to.be.true;
-      // });
+  describe('Testing read method', () => {
+    before(() => {
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      sinon.stub(carService, 'read').resolves(validCarWithId);
+    });
+
+    after(()=>{
+      (carService.read as sinon.SinonStub).restore();
+    });
+
+      it('should return status code equal to 200 and return all cars', async () => {
+        await carController.read(req, res);
+        expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
+        expect((res.json as sinon.SinonStub).calledWith(validCarWithId)).to.be.true;
+      });
+
+      it('should return status code equal to 500 and message internal server error if an internal error occurs  ', async () => {
+        (carService.read as sinon.SinonStub).rejects();
+        await carController.read(req, res);
+        expect((res.status as sinon.SinonStub).calledWith(500)).to.be.true;
+        expect((res.json as sinon.SinonStub).calledWith({ error: 'Internal Server Error' })).to.be.true;
+      });
   });
 });

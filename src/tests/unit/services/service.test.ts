@@ -2,18 +2,21 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import CarModel from '../../../models/CarModel';
 import CarService from '../../../service/CarService';
-import { invalidCar, validCar } from '../mocks/mocks';
+import { invalidCar, validCar, validCarWithId } from '../mocks/mocks';
 
 const carModel = new CarModel();
 const carService = new CarService(carModel);
 
 describe ('Testing Car Service', () => {
-  before (() => {
+  beforeEach (() => {
     sinon.stub(carModel, 'create').resolves(validCar);
+    sinon.stub(carModel, 'read').resolves(validCarWithId);
   });
 
-  after (() => {
-    (carModel.create as sinon.SinonStub).restore();
+  afterEach (() => {
+    // (carModel.create as sinon.SinonStub).restore();
+    // (carModel.read as sinon.SinonStub).restore();
+    sinon.restore();
   });
 
   it ('should create a new car and return new car', async () => {
@@ -26,6 +29,13 @@ describe ('Testing Car Service', () => {
     const car = await carService.create(invalidCar);
     expect(car).to.be.an('object');
     expect(car).to.be.property('error');
+  });
+
+  it ('should find all cars', async () => {
+    const cars = await carService.read();
+    expect(cars).to.be.an('array');
+    expect(cars[0]).to.be.an('object');
+    expect(cars).to.be.deep.equal(validCarWithId);
   });
 });
 

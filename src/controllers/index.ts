@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Service from '../service';
+import Service from '../services';
 
 export type ResponseError = {
   error: unknown;

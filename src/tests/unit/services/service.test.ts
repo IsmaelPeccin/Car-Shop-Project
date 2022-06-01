@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import CarModel from '../../../models/CarModel';
-import CarService from '../../../service/CarService';
+import CarService from '../../../services/CarService';
 import { invalidCar, validCar, validCarWithId } from '../mocks/mocks';
 
 const carModel = new CarModel();
